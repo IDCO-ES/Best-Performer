@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Best Performer · IDCO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Oswald:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0A0A; --surface:#111111; --surface2:#161616; --line:#242424; --line2:#2E2E2E;
+  --ink:#FFFFFF; --muted:#8C8C8C; --muted2:#B4B4B4; --red:#CB3332;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:Poppins,system-ui,sans-serif;font-size:15px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;}
+.wrap{max-width:960px;margin:0 auto;padding:56px 20px 90px;}
+a{color:inherit;text-decoration:none}
+.logo{font-family:Oswald,sans-serif;font-weight:700;font-size:40px;text-transform:uppercase;
+  letter-spacing:.01em;margin:0 0 4px}
+.logo .tag{background:var(--red);color:#fff;padding:1px 12px;border-radius:4px;margin-left:6px}
+.sub{color:var(--muted);font-size:14px;margin:0 0 34px;max-width:60ch}
+.bar{display:flex;align-items:center;gap:16px;margin-bottom:26px}
+.search{flex:1;background:var(--surface);border:1px solid var(--line2);border-radius:12px;
+  padding:15px 18px;color:var(--ink);font-family:inherit;font-size:15px;outline:none}
+.search::placeholder{color:var(--muted)}
+.search:focus{border-color:var(--red)}
+.count{font-family:Oswald,sans-serif;font-weight:600;font-size:15px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.count b{color:var(--ink)}
+ul{list-style:none;margin:0;padding:0}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:22px 24px;margin-bottom:14px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  transition:border-color .15s ease}
+.item:hover{border-color:var(--line2)}
+.item-info{flex:1;min-width:200px}
+.item-cliente{font-family:Poppins;font-weight:600;font-size:19px;margin:0 0 4px}
+.item-meta{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);
+  display:flex;gap:14px;flex-wrap:wrap}
+.btn{font-family:"JetBrains Mono",monospace;font-size:12.5px;font-weight:700;
+  padding:10px 18px;border-radius:9px;border:1px solid var(--line2);background:#000;color:var(--ink)}
+.btn:hover{border-color:var(--red)}
+.btn-primary{background:var(--red);border-color:var(--red)}
+.btn-primary:hover{filter:brightness(1.12)}
+.empty{background:var(--surface);border:1px dashed var(--line2);border-radius:14px;
+  padding:44px;text-align:center;color:var(--muted)}
+.empty b{color:var(--muted2)}
+.foot{margin-top:44px;border-top:1px solid var(--line);padding-top:18px;
+  font-size:12px;color:var(--muted)}
+</style></head>
+<body>
+<div class="wrap">
+  <h1 class="logo">Best Performer <span class="tag">IDCO</span></h1>
+  <p class="sub">Panel interno · Informes de referentes de nicho. Cada entrada enlaza al informe generado para un cliente. Los nuevos aparecen arriba automáticamente.</p>
+
+  <div class="bar">
+    <input class="search" id="q" type="text" placeholder="Buscar por cliente…" oninput="filtrar()">
+    <div class="count"><b id="n">0</b> informes</div>
+  </div>
+
+  <ul id="lista">
+    <!-- IDCO:NUEVO_DEPLOY -->
+  </ul>
+
+  <div class="empty" id="vacio" style="display:none">
+    Aún no hay informes. <b>El primer run del Zap aparecerá aquí.</b>
+  </div>
+
+  <div class="foot">IDCO · Instituto de Crecimiento Orgánico — Uso interno</div>
+</div>
+
+<script>
+function render(){
+  var items = document.querySelectorAll('#lista .item');
+  document.getElementById('n').textContent = items.length;
+  document.getElementById('vacio').style.display = items.length ? 'none' : 'block';
+}
+function filtrar(){
+  var q = document.getElementById('q').value.toLowerCase();
+  document.querySelectorAll('#lista .item').forEach(function(it){
+    var t = (it.getAttribute('data-cliente')||'').toLowerCase();
+    it.style.display = t.indexOf(q) > -1 ? '' : 'none';
+  });
+}
+render();
+</script>
+</body></html>
