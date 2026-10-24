@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Referentes de nicho para cliente · IDCO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Poppins:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0A0A; --surface:#111111; --surface2:#161616; --line:#242424; --line2:#2E2E2E;
+  --hi:rgba(255,255,255,.055);
+  --ink:#FFFFFF; --muted:#8C8C8C; --muted2:#B4B4B4;
+  --red:#CB3332; --red-soft:rgba(203,51,50,.14); --red-glow:rgba(203,51,50,.28);
+  --competidor:#34D399; --creador:#7DA0FF; --adyacente:#F5B94D; --outlier:#C58CF5; --norel:#7C8792;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:Poppins,system-ui,sans-serif;font-size:15px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;padding:0 20px}
+.nd{color:var(--muted);font-style:italic}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:4px}
+
+/* ================= HERO ================= */
+.masthead{position:relative;background:#000;border-bottom:1px solid var(--line);
+  margin:0 -20px 0;padding:56px 20px 40px;overflow:hidden}
+.masthead::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 620px 340px at 12% -10%, var(--red-glow), transparent 62%),
+    radial-gradient(ellipse 520px 300px at 95% 115%, rgba(203,51,50,.10), transparent 60%);}
+.masthead::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+  background-size:44px 44px;
+  -webkit-mask-image:linear-gradient(#000 0%, transparent 78%);
+  mask-image:linear-gradient(#000 0%, transparent 78%);}
+.mast-inner{position:relative;max-width:1100px;margin:0 auto}
+.eyebrow{font-family:Oswald,sans-serif;font-weight:600;font-size:12px;letter-spacing:.34em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 18px}
+.brandtag{background:var(--red);color:#fff;padding:2px 9px;border-radius:3px;letter-spacing:.24em}
+.mast-title{font-family:Oswald,sans-serif;font-weight:700;font-size:54px;line-height:1.02;
+  margin:0 0 14px;text-wrap:balance;max-width:24ch}
+.mast-title b{color:var(--red);font-weight:700}
+.mast-thesis{font-size:16px;color:var(--muted2);margin:0 0 30px;max-width:62ch}
+.mast-thesis b{color:var(--ink);font-weight:600}
+.kpis{display:flex;flex-wrap:wrap;gap:14px 44px;margin:0 0 30px}
+.kpi{display:flex;flex-direction:column;gap:2px}
+.kpi-val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:26px;line-height:1.1}
+.kpi-lbl{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mast-niche{margin:24px 0 0;font-size:13.5px;color:var(--muted);max-width:76ch}
+
+/* espectro del nicho */
+.spectrum{margin:0}
+.sp-track{display:flex;height:10px;border-radius:6px;overflow:hidden;background:var(--surface2);
+  border:1px solid var(--line)}
+.seg{display:block;height:100%}
+.seg-competidor{background:var(--competidor)} .seg-creador{background:var(--creador)}
+.seg-adyacente{background:var(--adyacente)} .seg-outlier{background:var(--outlier)}
+.seg-norel{background:var(--norel)}
+.sp-legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin:10px 0 0;font-size:12px;color:var(--muted)}
+.sp-leg b{color:var(--muted2);font-family:"JetBrains Mono",monospace;font-weight:700;margin-left:2px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.d-competidor{background:var(--competidor)} .d-creador{background:var(--creador)}
+.d-adyacente{background:var(--adyacente)} .d-outlier{background:var(--outlier)} .d-norel{background:var(--norel)}
+
+.wrap{max-width:1100px;margin:0 auto;padding:32px 0 60px}
+
+/* ================= FILTROS ================= */
+.filterbar{position:sticky;top:0;z-index:20;margin:0 -20px 26px;padding:14px 20px;
+  background:rgba(10,10,10,.86);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px}
+.fgroup{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.fgroup-lbl{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-right:2px}
+.fbtn{font-family:Poppins,sans-serif;font-size:12.5px;color:var(--muted2);cursor:pointer;
+  background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:5px 13px;
+  transition:.15s;line-height:1;white-space:nowrap}
+.fbtn:hover{border-color:var(--line2);color:var(--ink)}
+.fbtn.active{background:var(--red);border-color:var(--red);color:#fff;font-weight:500}
+.fcount{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);margin-left:auto}
+
+.sec-title{font-family:Oswald,sans-serif;font-weight:700;font-size:26px;margin:14px 0 4px}
+.sec-sub{font-size:13.5px;color:var(--muted);margin:0 0 20px;max-width:76ch}
+.top-head{margin:0 0 20px}
+
+/* ================= TARJETAS ================= */
+.card{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  overflow:hidden;margin:0 0 18px;position:relative;
+  box-shadow:0 1px 0 var(--hi) inset, 0 10px 30px rgba(0,0,0,.35);
+  transition:border-color .2s, transform .2s, box-shadow .25s, opacity .3s;
+  scroll-margin-top:84px}
+.card:hover{border-color:var(--line2);transform:translateY(-2px)}
+.c-competidor:hover{box-shadow:0 1px 0 var(--hi) inset, 0 12px 34px rgba(0,0,0,.4), 0 0 0 1px rgba(52,211,153,.22), 0 0 26px rgba(52,211,153,.07)}
+.c-creador:hover{box-shadow:0 1px 0 var(--hi) inset, 0 12px 34px rgba(0,0,0,.4), 0 0 0 1px rgba(125,160,255,.22), 0 0 26px rgba(125,160,255,.07)}
+.c-adyacente:hover{box-shadow:0 1px 0 var(--hi) inset, 0 12px 34px rgba(0,0,0,.4), 0 0 0 1px rgba(245,185,77,.22), 0 0 26px rgba(245,185,77,.07)}
+.c-outlier:hover{box-shadow:0 1px 0 var(--hi) inset, 0 12px 34px rgba(0,0,0,.4), 0 0 0 1px rgba(197,140,245,.22), 0 0 26px rgba(197,140,245,.07)}
+.c-norel:hover{box-shadow:0 1px 0 var(--hi) inset, 0 12px 34px rgba(0,0,0,.4), 0 0 0 1px rgba(124,135,146,.2)}
+.card.hidden{display:none}
+.anim .card{opacity:0;transform:translateY(16px)}
+.anim .card.in{opacity:1;transform:none}
+.spine{width:4px;flex-shrink:0}
+.c-competidor .spine{background:var(--competidor)} .c-creador .spine{background:var(--creador)}
+.c-adyacente .spine{background:var(--adyacente)} .c-outlier .spine{background:var(--outlier)}
+.c-norel .spine{background:var(--norel)}
+
+/* podio Top 3 */
+.podium{background:linear-gradient(180deg, #131313 0%, var(--surface) 42%)}
+.podium .spine{width:5px}
+
+.card-main{flex:1;min-width:0;padding:22px 24px}
+.card-top .card-main{display:grid;grid-template-columns:284px 1fr;gap:8px 34px}
+@media(max-width:900px){.card-top .card-main{display:block}}
+
+.col-meta{display:flex;flex-direction:column;gap:16px;min-width:0}
+.col-body{min-width:0;border-left:1px solid var(--line);padding-left:34px}
+@media(max-width:900px){.col-body{border-left:none;padding-left:0;margin-top:18px}}
+
+.card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.rank{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:14px;color:var(--muted);
+  text-decoration:none;transition:color .15s}
+.rank:hover{color:var(--red)}
+.podium .rank{color:var(--ink);font-size:16px}
+.plat-mark{font-family:Oswald,sans-serif;font-size:12px;font-weight:700;padding:2px 9px;border-radius:6px;color:#fff}
+.plat-mark.instagram{background:linear-gradient(120deg,#C13584,#E1306C 60%,#F56040)}
+.plat-mark.tiktok{background:#000;border:1px solid var(--line2)}
+.account{font-family:Poppins;font-weight:600;font-size:16px;text-decoration:none;transition:color .15s}
+.account:hover{color:var(--red)}
+.account-big{font-size:19px;letter-spacing:-.01em;overflow-wrap:anywhere}
+.account-plain{color:var(--muted2)}
+.ctag{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  padding:3px 8px;border-radius:5px;white-space:nowrap}
+.ctag-competidor{background:rgba(52,211,153,.13);color:#34D399}
+.ctag-creador{background:rgba(125,160,255,.14);color:#9DB6FF}
+.ctag-adyacente{background:rgba(245,185,77,.14);color:#F5B94D}
+.ctag-outlier{background:rgba(197,140,245,.14);color:#C58CF5}
+.ctag-norel{background:rgba(124,135,146,.14);color:#9AA5B0}
+
+/* anillo de score */
+.ring{position:relative;width:112px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.ring svg{width:96px;height:96px;display:block}
+.ring-bg{fill:none;stroke:var(--surface2);stroke-width:7}
+.ring-val{fill:none;stroke-width:7;stroke-linecap:round}
+.c-competidor .ring-val{stroke:var(--competidor)} .c-creador .ring-val{stroke:var(--creador)}
+.c-adyacente .ring-val{stroke:var(--adyacente)} .c-outlier .ring-val{stroke:var(--outlier)}
+.c-norel .ring-val{stroke:var(--norel)}
+.ring-num{position:absolute;top:34px;left:0;width:112px;text-align:center;
+  font-family:"JetBrains Mono",monospace;font-weight:700;font-size:26px;line-height:1}
+.ring-lbl{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* métricas */
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px}
+.metric{display:flex;flex-direction:column}
+.m-val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:15px}
+.m-lbl{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+
+/* barra de reach */
+.reach{display:flex;flex-direction:column;gap:6px}
+.reach-head{display:flex;justify-content:space-between;align-items:baseline}
+.reach-lbl{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.reach-val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:13px}
+.reach-track{position:relative;height:7px;border-radius:5px;background:var(--surface2);
+  border:1px solid var(--line);overflow:visible}
+.reach-fill{position:absolute;left:0;top:0;bottom:0;border-radius:5px;
+  background:linear-gradient(90deg, rgba(203,51,50,.55), var(--red))}
+.reach-tick{position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--muted);opacity:.6}
+.reach-scale{display:flex;justify-content:space-between;
+  font-family:"JetBrains Mono",monospace;font-size:9px;color:var(--muted)}
+
+/* botones */
+.card-actions{display:flex;flex-direction:column;gap:9px;margin-top:2px}
+.card-actions.compact{flex-direction:row;flex-wrap:wrap;margin:12px 0 2px}
+.btn{font-family:Poppins,sans-serif;font-size:13px;font-weight:500;text-decoration:none;
+  border-radius:9px;padding:9px 15px;transition:.16s;display:inline-flex;align-items:center;
+  justify-content:center;gap:7px;line-height:1}
+.btn .arr{font-size:13px;opacity:.85;transition:transform .16s}
+.btn:hover .arr{transform:translate(1px,-1px)}
+.btn-reel{background:var(--red);color:#fff;border:1px solid var(--red);
+  box-shadow:0 4px 16px rgba(203,51,50,.24)}
+.btn-reel:hover{background:#b32b2a;border-color:#b32b2a;box-shadow:0 6px 20px rgba(203,51,50,.32)}
+.btn-prof{background:transparent;color:var(--muted2);border:1px solid var(--line2)}
+.btn-prof:hover{border-color:var(--muted2);color:var(--ink)}
+.card-actions.compact .btn{font-size:12px;padding:6px 12px}
+
+/* análisis */
+.analysis{display:flex;flex-direction:column;gap:16px}
+.an-row{margin:0}
+.an-lbl{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--red);font-weight:700;display:block;margin:0 0 6px}
+.an-row p{margin:0;font-size:14px;color:var(--muted2);line-height:1.62}
+.an-est{font-family:"JetBrains Mono",monospace;font-size:12.5px !important;color:var(--ink) !important;
+  background:var(--surface2);border:1px solid var(--line);border-radius:9px;padding:12px 14px;line-height:1.75 !important;
+  box-shadow:0 1px 0 var(--hi) inset}
+.an-adapt{background:var(--red-soft);border:1px solid rgba(203,51,50,.22);border-radius:10px;padding:13px 15px}
+.an-adapt .an-lbl{color:var(--red)}
+.an-adapt p{color:var(--ink)}
+
+/* transcripción */
+.transcript{margin:18px 0 0;border-top:1px solid var(--line);padding-top:14px}
+.tr-sum{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:7px;
+  transition:color .15s}
+.tr-sum:hover{color:var(--muted2)}
+.tr-sum::-webkit-details-marker{display:none}
+.tr-sum::before{content:"\25B8";font-size:11px;transition:transform .15s;display:inline-block}
+details[open] .tr-sum::before{transform:rotate(90deg)}
+.transcript p{margin:12px 0 0;font-size:13px;color:var(--muted2);line-height:1.66;white-space:pre-wrap}
+.tr-lbl{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;display:block;margin:0 0 6px}
+.tr-empty p{margin:0;font-style:italic;color:var(--muted)}
+
+/* resto */
+.rest-head{margin:46px 0 4px;border-top:1px solid var(--line);padding-top:38px}
+.rest-grid{display:grid;gap:12px}
+.card-rest .card-main{padding:15px 20px}
+.card-rest .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:15px;
+  background:var(--surface2);border:1px solid var(--line2);border-radius:7px;padding:3px 11px}
+.s-competidor{color:var(--competidor)} .s-creador{color:var(--creador)}
+.s-adyacente{color:var(--adyacente)} .s-outlier{color:var(--outlier)} .s-norel{color:#9AA5B0}
+.rest-meta{display:flex;flex-wrap:wrap;gap:6px 18px;margin:8px 0 0;
+  font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--muted)}
+.rest-motivo{margin:8px 0 0;font-size:13px;color:var(--muted2)}
+
+/* explorar + cierre */
+.explore{margin:52px 0 0;border-top:1px solid var(--line);padding-top:32px}
+.explore h3{font-family:Oswald,sans-serif;font-weight:600;font-size:13px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.explore>p{font-size:13px;color:var(--muted);margin:0 0 18px;max-width:70ch}
+.ex-block{margin:0 0 16px}
+.ex-plat{font-family:Oswald,sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted2);display:block;margin:0 0 8px}
+.ex-grid{display:flex;flex-wrap:wrap;gap:8px}
+.ex-link{font-family:"JetBrains Mono",monospace;font-size:12px;text-decoration:none;color:var(--muted2);
+  background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:6px 12px;transition:.15s}
+.ex-link:hover{border-color:var(--red);color:var(--ink)}
+
+.brand-close{margin:52px -20px 0;padding:36px 20px;background:#000;border-top:1px solid var(--line)}
+.bc-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;
+  justify-content:space-between;gap:14px 24px}
+.bc-left{display:flex;flex-direction:column;gap:6px}
+.bc-tag{font-family:Oswald,sans-serif;font-weight:600;font-size:11px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--muted)}
+.bc-tag .brandtag{margin-right:8px}
+.bc-line{font-size:14px;color:var(--muted2);max-width:56ch}
+.brand-link{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--ink);text-decoration:none;
+  border:1px solid var(--line2);border-radius:9px;padding:10px 16px;transition:.15s}
+.brand-link:hover{border-color:var(--red);color:var(--ink)}
+
+.foot-note{margin:36px 0 0;font-size:12.5px;color:var(--muted);line-height:1.7;
+  border-top:1px solid var(--line);padding-top:22px}
+.foot-note b{color:var(--muted2)}
+
+/* volver arriba */
+.to-top{position:fixed;right:22px;bottom:22px;z-index:30;width:46px;height:46px;border-radius:50%;
+  background:var(--red);color:#fff;border:none;cursor:pointer;font-size:20px;line-height:1;
+  box-shadow:0 6px 20px rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .2s,transform .15s}
+.to-top.show{opacity:1;pointer-events:auto}
+.to-top:hover{transform:translateY(-2px)}
+
+@media(max-width:640px){
+  .mast-title{font-size:34px} body{font-size:14px}
+  .masthead{padding:44px 20px 32px}
+  .kpis{gap:12px 26px} .kpi-val{font-size:21px}
+  .filterbar{position:static;gap:8px;backdrop-filter:none;background:var(--bg)}
+  .fgroup{flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:2px;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .fgroup::-webkit-scrollbar{display:none}
+  .card{scroll-margin-top:12px}
+  .fcount{margin-left:0;width:100%}
+  .card-actions{flex-direction:row;flex-wrap:wrap}
+  .card-actions .btn{flex:1;justify-content:center}
+  .bc-inner{flex-direction:column;align-items:flex-start}
+}
+</style></head>
+<body>
+<div class="masthead"><div class="mast-inner">
+  <p class="eyebrow"><span class="brandtag">IDCO</span> &nbsp;Niche Best Performer Finder</p>
+  <h1 class="mast-title">Referentes de nicho para <b>cliente</b></h1>
+  <p class="mast-thesis">De las <b>0 piezas</b> con mejor rendimiento del nicho, estas son las <b>0 que merecen replicarse</b> — juzgadas por lo que dicen, no por quién las publica.</p>
+  <div class="kpis">
+    <div class="kpi"><span class="kpi-val">0</span><span class="kpi-lbl">Piezas analizadas</span></div>
+    <div class="kpi"><span class="kpi-val">0</span><span class="kpi-lbl">Instagram</span></div>
+    <div class="kpi"><span class="kpi-val">0</span><span class="kpi-lbl">TikTok</span></div>
+    <div class="kpi"><span class="kpi-val"></span><span class="kpi-lbl">Mercado</span></div>
+    <div class="kpi"><span class="kpi-val"></span><span class="kpi-lbl">Datos</span></div>
+  </div>
+  <div class="spectrum"><div class="sp-track"></div><div class="sp-legend"><span class="sp-leg"><i class="dot d-competidor"></i>Competidor directo <b>0</b></span><span class="sp-leg"><i class="dot d-creador"></i>Creador del nicho <b>0</b></span><span class="sp-leg"><i class="dot d-adyacente"></i>Adyacente <b>0</b></span><span class="sp-leg"><i class="dot d-outlier"></i>Outlier de formato <b>0</b></span><span class="sp-leg"><i class="dot d-norel"></i>No relacionado <b>0</b></span></div></div>
+  <p class="mast-niche"></p>
+</div></div>
+
+<div class="filterbar">
+  <div class="fgroup" data-filter="cat">
+    <span class="fgroup-lbl">Categoría</span>
+    <button class="fbtn active" data-val="all">Todas</button>
+    <button class="fbtn" data-val="competidor">Competidor</button>
+    <button class="fbtn" data-val="creador">Creador</button>
+    <button class="fbtn" data-val="adyacente">Adyacente</button>
+    <button class="fbtn" data-val="outlier">Outlier</button>
+    <button class="fbtn" data-val="norel">No relacionado</button>
+  </div>
+  <div class="fgroup" data-filter="plat">
+    <span class="fgroup-lbl">Plataforma</span>
+    <button class="fbtn active" data-val="all">Todas</button>
+    <button class="fbtn" data-val="instagram">Instagram</button>
+    <button class="fbtn" data-val="tiktok">TikTok</button>
+  </div>
+  <span class="fcount" id="filter-count"></span>
+</div>
+
+<div class="wrap">
+  <div class="top-head" id="top-head">
+    <h2 class="sec-title">Top 0 · las mejores referencias, analizadas a fondo</h2>
+    <p class="sec-sub">Cada pieza incluye por qué funciona, su gancho de apertura, la estructura replicable del guion y cómo adaptarla a tu negocio. El análisis se basa en la transcripción real del vídeo.</p>
+  </div>
+  
+
+  
+
+  <div class="explore">
+    <h3>Seguir explorando manualmente</h3>
+    <p>Hashtags y búsquedas reales del nicho para ampliar la investigación desde el propio feed.</p>
+    <div class="ex-block">
+      <span class="ex-plat">Instagram</span>
+      <div class="ex-grid"></div>
+    </div>
+    <div class="ex-block">
+      <span class="ex-plat">TikTok</span>
+      <div class="ex-grid"></div>
+    </div>
+  </div>
+
+  <p class="foot-note">
+    Este informe es una <b>investigación preliminar</b> generada con datos reales y verificables.
+    Las métricas provienen directamente de Instagram y TikTok; donde aparece <b>N/D</b> el dato no estaba
+    disponible (nunca se rellena con un cero inventado). Todo el análisis del Top es
+    interpretación asistida por IA sobre la transcripción real de la pieza — verifícalo antes de decidir.
+    El orden prioriza la relevancia: las referencias más accionables para captar clientes arriba.
+  </p>
+</div>
+
+<div class="brand-close"><div class="bc-inner">
+  <div class="bc-left">
+    <span class="bc-tag"><span class="brandtag">IDCO</span>Instituto de Crecimiento Orgánico</span>
+    <span class="bc-line">Informe generado por Niche Best Performer Finder, el sistema de investigación de referentes de IDCO para <b>cliente</b>.</span>
+  </div>
+  
+</div></div>
+
+<button class="to-top" id="to-top" title="Volver arriba" aria-label="Volver arriba">&#8593;</button>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- filtros ---------- */
+  var state = {cat:'all', plat:'all'};
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var countEl = document.getElementById('filter-count');
+  var topHead = document.getElementById('top-head');
+  var restHead = document.getElementById('rest-head');
+
+  function matches(card){
+    var okCat = state.cat === 'all' || card.getAttribute('data-cat') === state.cat;
+    var okPlat = state.plat === 'all' || card.getAttribute('data-plat') === state.plat;
+    return okCat && okPlat;
+  }
+  function apply(){
+    var shown = 0, topShown = 0, restShown = 0;
+    cards.forEach(function(c){
+      var ok = matches(c);
+      c.classList.toggle('hidden', !ok);
+      if(ok){ shown++; if(c.classList.contains('card-top')) topShown++; else restShown++; }
+    });
+    if(topHead) topHead.style.display = topShown ? '' : 'none';
+    if(restHead) restHead.style.display = restShown ? '' : 'none';
+    var filtered = !(state.cat === 'all' && state.plat === 'all');
+    if(countEl){
+      countEl.textContent = filtered ? (shown + (shown === 1 ? ' pieza' : ' piezas')) : '';
+    }
+  }
+  document.querySelectorAll('.fgroup').forEach(function(group){
+    var dim = group.getAttribute('data-filter');
+    group.querySelectorAll('.fbtn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        group.querySelectorAll('.fbtn').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        state[dim] = btn.getAttribute('data-val');
+        apply();
+      });
+    });
+  });
+
+  /* ---------- volver arriba ---------- */
+  var toTop = document.getElementById('to-top');
+  window.addEventListener('scroll', function(){
+    if(toTop) toTop.classList.toggle('show', window.pageYOffset > 600);
+  }, {passive:true});
+  if(toTop){
+    toTop.addEventListener('click', function(){
+      window.scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
+    });
+  }
+
+  if (reduce) { return; }
+
+  /* ---------- fade-up de tarjetas + count-up del anillo ---------- */
+  function animateRing(ring){
+    var target = parseInt(ring.getAttribute('data-score'), 10);
+    if (isNaN(target)) return;
+    var num = ring.querySelector('.ring-num');
+    var val = ring.querySelector('.ring-val');
+    var C = 188.5, t0 = null, DUR = 900;
+    if (val) {
+      val.style.strokeDasharray = '0 ' + C;
+    }
+    function step(ts){
+      if(!t0) t0 = ts;
+      var k = Math.min(1, (ts - t0) / DUR);
+      var e = 1 - Math.pow(1 - k, 3);
+      var cur = Math.round(target * e);
+      if (num) num.textContent = cur;
+      if (val) val.style.strokeDasharray = (C * target / 100 * e).toFixed(1) + ' ' + C;
+      if (k < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  if ('IntersectionObserver' in window) {
+    var seen = new WeakSet();
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting && !seen.has(en.target)) {
+          seen.add(en.target);
+          en.target.classList.add('in');
+          var ring = en.target.querySelector('.ring[data-score]');
+          if (ring) animateRing(ring);
+          io.unobserve(en.target);
+        }
+      });
+    }, {rootMargin: '0px 0px -8% 0px'});
+    cards.forEach(function(c){ io.observe(c); });
+    document.documentElement.classList.add('anim');
+  }
+})();
+</script>
+
+</body></html>
